@@ -1,0 +1,23 @@
+#movies{
+ display: flex;
+ flex-wrap: wrap;
+ text-align: left;
+}
+
+.locationText{
+font-size: 10px;
+line-height: 8px;
+}
+
+.movieTitle{
+  font-size: 3em;
+  display: block;
+}
+
+.card {
+  margin: 10px;
+}
+
+.card-header {
+  text-align: center;
+}
