@@ -9,7 +9,7 @@ const shootTimeClass = (shootTime) => {
   let selectedClass = '';
   switch (shootTime) {
     case 'Morning':
-      selectedClass = 'bg-secondary';
+      selectedClass = 'bg-warning';
       break;
     case 'Afternoon':
       selectedClass = 'bg-success';
@@ -26,28 +26,67 @@ const shootTimeClass = (shootTime) => {
   return selectedClass;
 };
 
-const domStringBuilder = () => {
+const domStringBuilder = (locArray) => {
   let domString = '';
-  locations.forEach((location) => {
-    domString += `<div id="${location.id}" class="card location col-2">`;
+  locArray.forEach((location) => {
+    domString += `<div id=${location.id} class="card location">`;
     domString += `<div class="card-header ${shootTimeClass(location.shootTime)}">${location.name}</div>`;
-    domString += `<img class="card-img-top"> <img src="${location.imageUrl}">`;
-    domString += '<ul class="list-group list-group-flush">';
-    domString += `<li class="list-group-item address"><strong>Address</strong><br> ${location.address}</li>`;
-    domString += '</ul>';
+    domString += '<div class="card-body">';
+    domString += `<h5 class="card-title">${location.address}</h5>`;
+    domString += '</div>';
     domString += '</div>';
   });
   util.printToDom('locations', domString);
 };
 
+const filterButtonEvent = (e) => {
+  const buttonId = e.target.id;
+  const darkLocations = locations.filter(x => x.shootTime === 'After Dark');
+  const morningLocations = locations.filter(x => x.shootTime === 'Morning');
+  const afternoonLocations = locations.filter(x => x.shootTime === 'Afternoon');
+  const eveningLocations = locations.filter(x => x.shootTime === 'Evening');
+  switch (buttonId) {
+    case 'morning':
+      domStringBuilder(morningLocations);
+      break;
+    case 'afternoon':
+      domStringBuilder(afternoonLocations);
+      break;
+    case 'evening':
+      domStringBuilder(eveningLocations);
+      break;
+    case 'dark':
+      domStringBuilder(darkLocations);
+      break;
+    default:
+      domStringBuilder(locations);
+  }
+};
+
+const filterByTextEvent = (e) => {
+  const searchText = e.target.value;
+  const searchLocations = locations.filter((x) => {
+    const hasName = x.name.includes(searchText);
+    const hasAddress = x.address.includes(searchText);
+    return hasName || hasAddress;
+  });
+  domStringBuilder(searchLocations);
+};
+
 const initializeLocations = () => {
   locationsData.getLocationsData()
     .then((resp) => {
-      const locationsResults = resp.data.locations;
-      locations = locationsResults;
-      domStringBuilder();
+      const locationResults = resp.data.locations;
+      locations = locationResults;
+      domStringBuilder(locations);
+      document.getElementById('dark').addEventListener('click', filterButtonEvent);
+      document.getElementById('afternoon').addEventListener('click', filterButtonEvent);
+      document.getElementById('evening').addEventListener('click', filterButtonEvent);
+      document.getElementById('morning').addEventListener('click', filterButtonEvent);
+      document.getElementById('all').addEventListener('click', filterButtonEvent);
+      document.getElementById('search-input').addEventListener('keyup', filterByTextEvent);
     })
     .catch(err => console.error(err));
 };
 
-export default { initializeLocations, domStringBuilder };
+export default { initializeLocations };

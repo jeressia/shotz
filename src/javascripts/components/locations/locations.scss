@@ -1,8 +1,45 @@
 #locations {
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto;
+  max-width: 960px;
+  justify-content: center;
+  margin-bottom: 50px;
 }
+
+#filters{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.btn {
+  margin: 5px;
+}
+.card{
+  color: #232323;
+  margin: 10px;
+  width: 200px;
+  font-size: .8vw;
+}
+
+.row {
+  margin: 0 auto !important;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  }
+
+  .buttonz{ 
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px;}
 
 .address {
   text-align: center;
 }
+
+#search-input{
+  width: 300px;
+}
+
