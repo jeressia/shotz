@@ -4,6 +4,7 @@
 A website to keep track of movies and their shooting locations
 
 ## Screenshots
+![screenshot]('https://github.com/jeressia/shotz/blob/master/assets/screenshot.png?raw=true')
 
 ## Installation Instructions
 * Clone down this repo
